@@ -219,3 +219,66 @@ async def deleteemoji(ctx, emoji: discord.Emoji):
 		await ctx.send(f'Successfully deleted (or not): {emoji}')
 		await emoji.delete()
 
+
+
+@bot.command(description="used to annoy raider")
+async def bomb(ctx, member: discord.Member):
+               await member.create_dm()
+               await member.dm_channel.send(
+                   f'Hi {member.name}, your are being bombed GL..F F F F F F F F F F F F  F F F F F F F F F  F F F F F F F F F F  F F F F F F F F F F F  F F F F F F F F F F F  FF F F  F F F F F  F FFF F F F F  FF   F F  FF FF  F FF  F  FF  F F F FF F  FF F  F FF FF F F  FF  F F FF  F F F F FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF`
+               )
+@bot.command(description="sector 5 :wink:")
+async def warnf(ctx, member: discord.Member):
+    await member.create_dm()
+    await member.dm_channel.send(f'{member.name}... if you dare insult me then i shall make your inbox commit r/iwanttodie..you have been warned')              
+
+#@bot.command
+#async def memes(
+#@bot.command()
+#async def balance(ctx):await open_account(ctx.author)
+
+#users = await get_bank_data()
+
+
+#wallet_amt = users[str(user.id)]["wallet"]
+#bank_amt = users[str(user.id)]["bank"]
+
+#embed=discord.Embed(title="{}s balance:".format(member.name), color=0xe20303)
+#embed.add_field(name="Wallet:", value=wallet_amt, inline=False)
+#embed.add_field(name="Bank:", value=bank_amt, inline=False)
+
+#await ctx.send(embed=embed)
+
+#async def open_account(user):
+ #   users = await get_bank_data()
+
+  #  if str(user.id) in users:
+   #     return False
+    #else:
+     #   users[str(user.id)] = {}
+      #  users[str(user.id)]["wallet"] = 0
+       # users[str(user.id)]["bank"] = 0
+
+   # with open("bank.json", "w") as f:
+    #    json.dump(users, f)
+    #return True
+
+#async def get_bank_data():
+ #   with open("bank.json", "r") as f:
+  #      users = json.load(f)
+   # return users
+
+#@bot.command()
+#async def beg(ctx):
+
+  #  users = await get_bank_data()
+ #   user = ctx.author
+   # earnings = random.randrange(2000)
+
+    #if earnings == 0:
+     #   await ctx.send(f"How unlucky... You didn't get anything...")
+
+   # elif earnings > 50:
+    #    await ctx.send(f"Nice you got ${earnings} from a cool dude")
+
+   # elif earnings > 100:
