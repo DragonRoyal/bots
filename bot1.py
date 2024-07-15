@@ -148,3 +148,74 @@ async def unmute(ctx, member: discord.Member):
    embed = discord.Embed(title="unmute", description=f" unmuted-{member.mention}",colour=discord.Colour.light_gray())
    await ctx.send(embed=embed)
 
+
+@bot.command(description="Bans the user.")
+@commands.has_permissions(ban_members=True)
+async def ban(ctx, user: discord.Member, *, reason=None):
+  await user.ban(reason=reason)
+  await ctx.send(f"{user} have been bannned sucessfully")
+
+
+
+
+@bot.command()
+async def unban(ctx, *, member):
+	banned_users = await ctx.guild.bans()
+	
+	member_name, member_discriminator = member.split('#')
+	for ban_entry in banned_users:
+		user = ban_entry.user
+		
+	if (user.name, user.discriminator) == (member_name, member_discriminator):
+ 	    await ctx.guild.unban(user)
+ 	    await ctx.channel.send(f"Unbanned: {user.mention}")
+
+
+#@bot.command()
+#async def addMessage(ctx, messageID):
+ #   global messageIDs
+    
+  #  emoji = "👍"
+   # channel = ctx.message.channel
+
+   # try:
+    #    msg = await channel.fetch_message(messageID)
+   # except:
+    #    await ctx.send("Invalid Message ID!")
+     #   return
+   # await msg.add_reaction(emoji)
+   # messageIDs.append(messageID)
+
+
+
+
+
+
+@bot.command()
+async def createemoji(ctx, url: str, *, name):
+	guild = ctx.guild
+	if ctx.author.guild_permissions.manage_emojis:
+		async with aiohttp.ClientSession() as ses:
+			async with ses.get(url) as r:
+				
+				try:
+					img_or_gif = BytesIO(await r.read())
+					b_value = img_or_gif.getvalue()
+					if r.status in range(200, 299):
+						emoji = await guild.create_custom_emoji(image=b_value, name=name)
+						await ctx.send(f'Successfully created emoji: <:{name}:{emoji.id}>')
+						await ses.close()
+					else:
+						await ctx.send(f'Error when making request | {r.status} response.')
+						await ses.close()
+						
+				except discord.HTTPException:
+					await ctx.send('File size is too big!')
+
+@bot.command()
+async def deleteemoji(ctx, emoji: discord.Emoji):
+	guild = ctx.guild
+	if ctx.author.guild_permissions.manage_emojis:
+		await ctx.send(f'Successfully deleted (or not): {emoji}')
+		await emoji.delete()
+
