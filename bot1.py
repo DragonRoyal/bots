@@ -395,3 +395,49 @@ mainshop = [{"name":"Watch","price":100,"description":"Time"},
             {"name":"PC","price":10000,"description":"Gaming"},
             {"name":"Ferrari","price":99999,"description":"Sports Car"},
             {"name": "Lucky Clover","price": 9393939292920,"discription": "can only be obtained by luck"}]
+@bot.command(aliases=['bal'])
+async def balance(ctx):
+    await open_account(ctx.author)
+    user = ctx.author
+
+    users = await get_bank_data()
+
+    wallet_amt = users[str(user.id)]["wallet"]
+    bank_amt = users[str(user.id)]["bank"]
+
+    em = discord.Embed(title=f'{ctx.author.name} Balance',color = discord.Color.red())
+    em.add_field(name="Wallet Balance", value=wallet_amt)
+    em.add_field(name='Bank Balance',value=bank_amt)
+    await ctx.send(embed= em)
+
+@bot.command()
+async def beg(ctx):
+    await open_account(ctx.author)
+    user = ctx.author
+
+    users = await get_bank_data()
+
+    earnings = random.randrange(2001)
+    if earnings == 0:
+        await ctx.send(f"How unlucky... you must be did you buy a unlucky clover?")
+
+    elif earnings > 50:
+        await ctx.send(f"Nice you got ${earnings} from a cool dude")
+
+    elif earnings > 100:
+        await ctx.send(f"Someone felt nice and gave you ${earnings}")
+
+    elif earnings > 500:
+        await ctx.send(f"You seem to have a way with people! Someone gave you ${earnings}")
+
+    elif earnings > 800:
+        await ctx.send(f"What a lucky day!! Someone gave you ${earnings}")
+
+    elif earnings > 1500:
+        await ctx.send(f"A rich man passed by you and felt bad. So he gave you ${earnings}")
+
+    elif earnings > 2000:
+        await ctx.send(f"A shady man walked up to you and said 'I know how tough it can be out here' before giving you ${earnings}")
+    
+    elif earnings == 2001:
+        await ctx.send(f" A famous celebrity waked down the road.. you begged her so much you got 2001$ 
