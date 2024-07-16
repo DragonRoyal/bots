@@ -225,8 +225,7 @@ async def deleteemoji(ctx, emoji: discord.Emoji):
 async def bomb(ctx, member: discord.Member):
                await member.create_dm()
                await member.dm_channel.send(
-                   f'Hi {member.name}, your are being bombed GL..F F F F F F F F F F F F  F F F F F F F F F  F F F F F F F F F F  F F F F F F F F F F F  F F F F F F F F F F F  FF F F  F F F F F  F FFF F F F F  FF   F F  FF FF  F FF  F  FF  F F F FF F  FF F  F FF FF F F  FF  F F FF  F F F F FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF`
-               )
+                   f'Hi {member.name}, your are being bombed GL..F F F F F F F F F F F F  F F F F F F F F F  F F F F F F F F F F  F F F F F F F F F F F  F F F F F F F F F F F  FF F F  F F F F F  F FFF F F F F  FF   F F  FF FF  F FF  F  FF  F F F FF F  FF F  F FF FF F F  FF  F F FF  F F F F FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF')
 @bot.command(description="sector 5 :wink:")
 async def warnf(ctx, member: discord.Member):
     await member.create_dm()
@@ -282,3 +281,50 @@ async def warnf(ctx, member: discord.Member):
     #    await ctx.send(f"Nice you got ${earnings} from a cool dude")
 
    # elif earnings > 100:
+    #    await ctx.send(f"Someone felt nice and gave you ${earnings}")
+
+   # elif earnings > 500:
+    #    await ctx.send(f"You seem to have a way with people! Someone gave you ${earnings}")
+
+   # elif earnings > 800:
+    #    await ctx.send(f"What a lucky day!! Someone gave you ${earnings}")
+
+   # elif earnings > 1500:
+    #    await ctx.send(f"A rich man passed by you and felt bad. So ha gave you ${earnings}")
+
+   # elif earnings > 2000:
+    #    await ctx.send(f"A shady man walked up to you and said 'I know how tough it can be out here' before giving you ${earnings}")
+
+
+   # users[str(user.id)]["wallet"] += earnings
+
+    #with open("bank.json", "r") as f:
+     #   users = json.load(f)
+
+
+
+
+#@bot.command(description="sector 0 :wink:")
+#async def kill(ctx, member: discord.Member):
+ #   embed = discord.Embed(title = member.name, description = member.mention, color=discord.Color.red)
+  #  embed.add_field(name = "....you shall die", value="idk", inline = True)
+   # await member.send(embed=embed)
+    # await member.create_dm()
+   # await member.dm_channel.send(f'{member.name}...you shall die')
+
+
+
+#@bot.command()
+#async def spamr(ctx, member
+
+@bot.event
+async def on_ready():
+    await bot.change_presence(activity=discord.Game(name=f"on {len(bot.guilds)} servers |+help "))
+
+@bot.command()
+async def invite(ctx):
+    print("context", ctx)
+   # await member.create_dm()
+    await ctx.channel.send(' here is the link to invite the bot!: https://bit.ly/3ko8i3y')              
+
+
