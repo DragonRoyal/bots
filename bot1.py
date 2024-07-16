@@ -328,3 +328,70 @@ async def invite(ctx):
     await ctx.channel.send(' here is the link to invite the bot!: https://bit.ly/3ko8i3y')              
 
 
+@bot.command(description="Credits") 
+async def credits(ctx):
+    print("context",ctx)
+    await ctx.channel.send("`Some parts of this bots code was from a bot called WolfBot. If you like this bot then inviting wolfbot would help the dev a lot.")
+
+
+messageIDs = []
+
+@bot.event
+async def on_raw_reaction_add(payload):
+    global messageIDs
+
+    for messageID in messageIDs:
+        if messageID == payload.message_id:
+            user = payload.member
+            role = "roleName"
+            await user.add_roles(discord.utils.get(user.guild.roles, name = role))
+
+@bot.command()
+async def addMessage(ctx, messageID):
+    global messageIDs
+    
+    emoji = "👍"
+    channel = ctx.message.channel
+
+    try:
+        msg = await channel.fetch_message(messageID)
+    except:
+        await ctx.send("Invalid Message ID!")
+        return
+    await msg.add_reaction(emoji)
+    messageIDs.append(messageID)
+
+@bot.command(aliases=["serverinfo","Server_info","Serverinfo","SERVERINFO","si","Si","SI"])
+#@commands.has_any_role('Moderatori', 'Triumvirato', 'Co-Triumvirato', 'Senatori', '690956686147453048')
+async def ServerInfo(ctx):
+    author = ctx.author.name
+    name_server = guild.name
+    create_server = guild.create
+    owner_server = guild.owner.name
+    embed = discord.Embed(
+        title="Informazioni del server",
+        description=f'Tutte le informazioni generali del nostro server {name_server}',
+        color=0x003399
+    )
+    embed.set_thumbnail(url='')
+    embed.set_footer(text=f'Richiesto da: {author}')
+    embed.add_field(
+        name='Server creato il:',
+        value='f{create_server}',
+    )
+    embed.add_field(
+        name='Owner Attuale del server:',
+        value='f{create_server}',
+    )
+    embed.add_field(
+        name='Server creato il:',
+        value=f'{create_server}',
+    )
+    embed.add_field(
+        name='Server creato il:',
+        value=f'{owner_server}',)
+mainshop = [{"name":"Watch","price":100,"description":"Time"},
+            {"name":"Laptop","price":1000,"description":"Work"},
+            {"name":"PC","price":10000,"description":"Gaming"},
+            {"name":"Ferrari","price":99999,"description":"Sports Car"},
+            {"name": "Lucky Clover","price": 9393939292920,"discription": "can only be obtained by luck"}]
