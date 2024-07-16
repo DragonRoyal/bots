@@ -497,3 +497,82 @@ async def deposit(ctx,amount = None):
     await update_bank(ctx.author,amount,'bank')
     await ctx.send(f'{ctx.author.mention} You deposited {amount} coins')
 
+
+@bot.command(aliases=['sm'])
+async def send(ctx,member : discord.Member,amount = None):
+    await open_account(ctx.author)
+    await open_account(member)
+    if amount == None:
+        await ctx.send("Please enter the amount")
+        return
+
+    bal = await update_bank(ctx.author)
+    if amount == 'all':
+        amount = bal[0]
+
+    amount = int(amount)
+
+    if amount > bal[0]:
+        await ctx.send('You do not have sufficient balance')
+        return
+    if amount < 0:
+        await ctx.send('Amount must be positive!')
+        return
+
+    await update_bank(ctx.author,-1*amount,'bank')
+    await update_bank(member,amount,'bank')
+    await ctx.send(f'{ctx.author.mention} You gave {member} {amount} coins')
+
+
+@bot.command(aliases=['rb'])
+async def rob(ctx,member : discord.Member):
+    await open_account(ctx.author)
+    await open_account(member)
+    bal = await update_bank(member)
+
+
+    if bal[0]<100:
+        await ctx.send('It is useless to rob him :(')
+        
+      
+
+    earning = random.randrange(0,bal[0])
+
+    await update_bank(ctx.author,earning)
+    await update_bank(member,-1*earning)
+    await ctx.send(f'{ctx.author.mention} You robbed {member} and got {earning} coins')
+
+
+@bot.command()
+async def slots(ctx,amount = None):
+    await open_account(ctx.author)
+    if amount == None:
+        await ctx.send("Please enter the amount")
+        return
+
+    bal = await update_bank(ctx.author)
+
+    amount = int(amount)
+
+    if amount > bal[0]:
+        await ctx.send('You do not have sufficient balance')
+        return
+    if amount < 0:
+        await ctx.send('Amount must be positive!')
+        return
+    final = []
+    for i in range(3):
+        a = random.choice(['X','O','Q'])
+
+        final.append(a)
+
+    await ctx.send(str(final))
+
+    if final[0] == final[1] or final[1] == final[2] or final[0] == final[2]:
+        await update_bank(ctx.author,2*amount)
+        await ctx.send(f'You won :) {ctx.author.mention}')
+    else:
+        await update_bank(ctx.author,-1*amount)
+        await ctx.send(f'You lose :( {ctx.author.mention}')
+
+
