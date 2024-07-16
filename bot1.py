@@ -440,4 +440,60 @@ async def beg(ctx):
         await ctx.send(f"A shady man walked up to you and said 'I know how tough it can be out here' before giving you ${earnings}")
     
     elif earnings == 2001:
-        await ctx.send(f" A famous celebrity waked down the road.. you begged her so much you got 2001$ 
+        await ctx.send(f" A famous celebrity waked down the road.. you begged her so much you got 2001$
+
+
+
+    await ctx.send(f'{ctx.author.mention} Got {earnings} coins!!')
+
+    users[str(user.id)]["wallet"] += earnings
+
+    with open("mainbank.json",'w') as f:
+        json.dump(users,f)
+
+
+@bot.command(aliases=['wd'])
+async def withdraw(ctx,amount = None):
+    await open_account(ctx.author)
+    if amount == None:
+        await ctx.send("Please enter the amount")
+        return
+
+    bal = await update_bank(ctx.author)
+
+    amount = int(amount)
+
+    if amount > bal[1]:
+        await ctx.send('You do not have sufficient balance')
+        return
+    if amount < 0:
+        await ctx.send('Amount must be positive!')
+        return
+
+    await update_bank(ctx.author,amount)
+    await update_bank(ctx.author,-1*amount,'bank')
+    await ctx.send(f'{ctx.author.mention} You withdrew {amount} coins')
+
+
+@bot.command(aliases=['dp'])
+async def deposit(ctx,amount = None):
+    await open_account(ctx.author)
+    if amount == None:
+        await ctx.send("Please enter the amount")
+        return
+
+    bal = await update_bank(ctx.author)
+
+    amount = int(amount)
+
+    if amount > bal[0]:
+        await ctx.send('You do not have sufficient balance')
+        return
+    if amount < 0:
+        await ctx.send('Amount must be positive!')
+        return
+
+    await update_bank(ctx.author,-1*amount)
+    await update_bank(ctx.author,amount,'bank')
+    await ctx.send(f'{ctx.author.mention} You deposited {amount} coins')
+
