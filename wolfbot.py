@@ -576,3 +576,62 @@ async def slots(ctx,amount = None):
         await ctx.send(f'You lose :( {ctx.author.mention}')
 
 
+@bot.command()
+async def shop(ctx):
+    em = discord.Embed(title = "Shop")
+
+    for item in mainshop:
+        name = item["name"]
+        price = item["price"]
+        description = item["description"]
+        #dict.get("description", default=None)
+
+        em.add_field(name = name, value = f"${price} | {description}")
+
+    await ctx.send(embed = em)
+
+
+
+@bot.command()
+async def buy(ctx,item,amount = 1):
+    await open_account(ctx.author)
+
+    res = await buy_this(ctx.author,item,amount)
+
+    if not res[0]:
+        if res[1]==1:
+            await ctx.send("Wth mate that item is not in the shop.")
+            return
+        if res[1]==2:
+            await ctx.send(f"You don't have enough money in your wallet to buy {amount} {item} What about you get a job?")
+            return
+
+
+    await ctx.send(f"You just bought {amount} {item}")
+
+
+@bot.command()
+async def bag(ctx):
+    await open_account(ctx.author)
+    user = ctx.author
+    users = await get_bank_data()
+
+    try:
+        bag = users[str(user.id)]["bag"]
+    except:
+        bag = []
+
+
+    em = discord.Embed(title = "Bag")
+    for item in bag:
+        name = item["item"]
+        amount = item["amount"]
+
+        em.add_field(name = name, value = amount)    
+
+    await ctx.send(embed = em)
+
+
+async def buy_this(user,item_name,amount):
+    item_name = item_name.lower()
+    name_ = None
