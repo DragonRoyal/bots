@@ -786,6 +786,27 @@ async def open_account(user):
     with open('mainbank.json','w') as f:
         json.dump(users,f)
 
+async def get_bank_data():
+    with open('mainbank.json','r') as f:
+        users = json.load(f)
+
+    return users
+
+
+async def update_bank(user,change=0,mode = 'wallet'):
+    users = await get_bank_data()
+
+    users[str(user.id)][mode] += change
+
+    with open('mainbank.json','w') as f:
+        json.dump(users,f)
+    bal = users[str(user.id)]['wallet'],users[str(user.id)]['bank']
+    return bal
+        
+keep_alive()
+bot.run(TOKEN)
+
+
     return True
 
 
