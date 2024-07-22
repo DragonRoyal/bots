@@ -45,3 +45,52 @@ async def fact(ctx):
 async def _8ball(ctx,*,query):
   em = discord.Embed(title=query,description=random.choice(responses),color=0x28c979)
   await ctx.send(embed=em)
+
+
+
+# [maininfo,no color, color bad bad,hmmmm idk]
+
+@bot.command()
+async def add_endpoint(ctx):
+  if not int(ctx.author.id) in [783136680923758622,599266233350881291,819786180597907497]:
+    return
+  
+  await ctx.send("What is the name of the endpoint you want to add?")
+  name = await bot.wait_for('message',check = lambda m: m.author == ctx.author and m.channel == ctx.channel)
+  await ctx.send("What info do you want to add on the basis of this endpoint?")
+  info = await bot.wait_for('message',check = lambda m: m.author == ctx.author and m.channel == ctx.channel)
+  db[name.content] = info.content
+  await ctx.send("Endpoint has been added.")
+
+  
+
+@bot.command()
+async def remove_endpoint(ctx,name):
+  if not int(ctx.author.id) in [783136680923758622,599266233350881291,819786180597907497]:
+    return
+  del db[name]
+  await ctx.send("removed endpoint.")
+
+@bot.command()
+async def add_fact(ctx,*,fact):
+  if not int(ctx.author.id) in [783136680923758622,599266233350881291,819786180597907497]:
+    return
+  if not db['facts']:
+    db['facts'] = []
+  db['facts'].append(fact)
+  await ctx.send("Fact added to list")
+  
+@bot.command()
+async def remove_fact(ctx,*,fact):
+  if not int(ctx.author.id) in [783136680923758622,599266233350881291,819786180597907497]:
+    return
+  if not db['facts']:
+    db['facts'] = []
+  try:
+    db['facts'].remove(fact)
+    await ctx.send("Fact removed from list")
+  except:
+    await ctx.send("Fact not found")
+
+keep_alive.keep_alive()
+bot.run(os.getenv('TOKEN'))
